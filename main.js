@@ -1,8 +1,9 @@
+/**/
 "use strict";
 window.addEventListener("load", init);
 
 const settings = {
-    speed: 2,
+    speed: 5,
     width: 600,
     height: 400,
     carWidth: 100,
@@ -100,14 +101,22 @@ function moveBullets(){
     bullets.forEach(b=>{
         b.y-=settings.bulletSpeed;
     });
-}
-function tock(e){//refractoring
-    moveBullets();
+;}
+
+function moveHero(){
     if(settings.keys.left){
         car.x-=settings.speed;
+        if(car.x<0){
+            // console.log("please stop")
+            car.x=0;
+        }
     }
     if(settings.keys.right){
         car.x+=settings.speed;
+        if(car.x+settings.carWidth>settings.width){
+            // console.log("please don't leave")
+            car.x=settings.width-settings.carWidth;
+        }
     }
     if(settings.keys.up){
         car.y-=settings.speed;
@@ -115,20 +124,12 @@ function tock(e){//refractoring
     if(settings.keys.down){
         car.y+=settings.speed;
     }
+}
 
-    /*if(car.direction==="right"){
-        car.x+=settings.speed;
-        if(car.x>settings.width-settings.carWidth){
-            car.direction="left";
-        }
-    } else {
-        car.x-=settings.speed;
-        if(car.x<=0){
-            car.direction="right";
-        }
-    }*/
+function tock(e){//refractoring
+    moveBullets();
+    moveHero();
     stage.update(e);
-
 }
 
 
